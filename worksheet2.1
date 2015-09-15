@@ -1,0 +1,65 @@
+---
+title: "Stat404Worksheet2.1"
+author: "Adrian jones"
+date: "September 15, 2015"
+output: html_document
+---
+
+Worksheet for stat 404 done as homework after doing most of it in class
+
+Question #1)
+```{r}
+rm(list=ls())
+ecoli <- read.table("ecoli_cows.txt", header = T)
+as.matrix(ecoli) #do this so we can do matrix algebra with it
+ecoli
+```
+
+ 1a) x6,1 is -1
+ 1b) x3,2 is -1
+ 1c) y7 is --37
+ 1d) e7 is unknown because we don't have betas yet to estimate it from the observed
+
+
+Doing the linear model by hand using matrix algebra
+
+Question #2)
+
+```{r}
+y <- ecoli[,3]
+x <- cbind(rep(1,12), ecoli[,1], ecoli[,2], ecoli[,1]*ecoli[,2])
+
+```
+We now have the observed vector y and the expanded design matrix x.
+
+
+Question #3)
+
+```{r}
+xtx <- t(x) %*% x
+xty <- t(x) %*% y
+
+xtx
+
+```
+xtx is usefull because it is orthogonal.  This happened because it was made with an equal number of experimental units for all possible treatment combinations
+
+
+Question #4)
+```{r}
+betaHat <- solve(xtx) %*% xty
+
+betaHat
+
+```
+
+Question #5)
+```{r}
+lmEcoli=lm(EColiCount~carcassWash*sprayChill, data=ecoli)
+summary(lmEcoli)
+
+```
+
+At the 99.9% ci I can reject eh Ho that beta1 = 0
+
+Question #6)
